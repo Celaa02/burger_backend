@@ -14,14 +14,14 @@ dotenv.config();
     TypeOrmModule.forRoot({
       type: 'mysql',
       host:
-        process.env.HOST ||
+        process.env.DB_HOST ||
         'burguer-station.cr88uuesukl4.us-east-1.rds.amazonaws.com',
       port: Number(process.env.DB_PORT) || 3306,
       username: process.env.DB_USER || 'darly',
       password: process.env.DB_PASS || 'burguer-station',
       database: process.env.DB_NAME || 'burguer_station',
       autoLoadEntities: true,
-      synchronize: true, // cambia a false en producción
+      synchronize: false, // cambia a false en producción
     }),
     AuthModule,
     UserModule,
