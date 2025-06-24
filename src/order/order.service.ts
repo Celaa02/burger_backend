@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Order } from './order.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { sendOrderConfirmationEmail } from '../common/utils/send-confirmation-email'; // ajusta ruta
 
 @Injectable()
 export class OrderService {
@@ -11,9 +12,17 @@ export class OrderService {
     private orderRepo: Repository<Order>,
   ) {}
 
-  create(data: CreateOrderDto): Promise<Order> {
+  async create(data: CreateOrderDto): Promise<Order> {
     const order = this.orderRepo.create(data);
-    return this.orderRepo.save(order);
+    const savedOrder = await this.orderRepo.save(order);
+
+    // Enviar correo de confirmación
+    const email = data.email; // asegúrate de que esté incluido en el DTO
+    if (email) {
+      await sendOrderConfirmationEmail(email, savedOrder.id, savedOrder.total);
+    }
+
+    return savedOrder;
   }
 
   findAll(): Promise<Order[]> {
