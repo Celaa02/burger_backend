@@ -4,7 +4,9 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './order.entity';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Request } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('orders')
 export class OrderController {
   constructor(private orderService: OrderService) {}

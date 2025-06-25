@@ -11,7 +11,9 @@ import { BurgerService } from './burger.service';
 import { Burger } from './burger.entity';
 import { CreateBurgerDto } from './dto/create-burger.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Auth')
 @Controller('burgers')
 export class BurgerController {
   constructor(private burgerService: BurgerService) {}

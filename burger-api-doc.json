@@ -1,0 +1,344 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/burgers": {
+      "get": {
+        "operationId": "BurgerController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      },
+      "post": {
+        "operationId": "BurgerController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBurgerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/burgers/{id}": {
+      "get": {
+        "operationId": "BurgerController_getOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/orders": {
+      "post": {
+        "operationId": "OrderController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      },
+      "get": {
+        "operationId": "OrderController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Burger API",
+    "description": "Documentación de la API para Burger App",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Darly",
+            "description": "Nombre del usuario"
+          },
+          "email": {
+            "type": "string",
+            "example": "darlys@gmail.com",
+            "description": "Correo electrónico válido"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456",
+            "description": "Contraseña mínima de 6 caracteres"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "darlys@gmail.com",
+            "description": "Correo electrónico del usuario"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456",
+            "description": "Contraseña del usuario (mínimo 6 caracteres)"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "CreateBurgerDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Burger Doble Queso",
+            "description": "Nombre de la hamburguesa"
+          },
+          "description": {
+            "type": "string",
+            "example": "Con carne de res, doble queso, vegetales frescos y salsas",
+            "description": "Descripción de la hamburguesa"
+          },
+          "price": {
+            "type": "number",
+            "example": 23000,
+            "description": "Precio de la hamburguesa en pesos colombianos"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "https://i.imgur.com/xXZPZyZ.png",
+            "description": "URL de la imagen de la hamburguesa"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "price",
+          "imageUrl"
+        ]
+      },
+      "OrderItemDto": {
+        "type": "object",
+        "properties": {
+          "burgerId": {
+            "type": "number",
+            "example": 1,
+            "description": "ID de la hamburguesa seleccionada"
+          },
+          "extras": {
+            "example": [
+              "queso",
+              "tocineta"
+            ],
+            "description": "Lista de extras",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "salsas": {
+            "example": [
+              "mayonesa",
+              "bbq"
+            ],
+            "description": "Lista de salsas",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "price": {
+            "type": "number",
+            "example": 23000,
+            "description": "Precio del ítem"
+          },
+          "side": {
+            "type": "string",
+            "example": "papas",
+            "description": "Acompañamiento seleccionado"
+          },
+          "drink": {
+            "type": "string",
+            "example": "coca-cola",
+            "description": "Bebida seleccionada"
+          }
+        },
+        "required": [
+          "burgerId",
+          "extras",
+          "salsas",
+          "price",
+          "side",
+          "drink"
+        ]
+      },
+      "CreateOrderDto": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "description": "Lista de hamburguesas y sus configuraciones",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDto"
+            }
+          },
+          "email": {
+            "type": "string",
+            "example": "cliente@gmail.com",
+            "description": "Correo del cliente"
+          },
+          "total": {
+            "type": "number",
+            "example": 23000,
+            "description": "Total del pedido"
+          },
+          "user_id": {
+            "type": "number",
+            "example": 8,
+            "description": "ID del usuario que hace el pedido"
+          }
+        },
+        "required": [
+          "items",
+          "email",
+          "total",
+          "user_id"
+        ]
+      }
+    }
+  }
+}
