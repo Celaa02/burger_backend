@@ -21,7 +21,7 @@ dotenv.config();
       password: process.env.DB_PASS || 'burguer-station',
       database: process.env.DB_NAME || 'burguer_station',
       autoLoadEntities: true,
-      synchronize: false, // cambia a false en producción
+      synchronize: true, // cambia a false en producción
     }),
     AuthModule,
     UserModule,

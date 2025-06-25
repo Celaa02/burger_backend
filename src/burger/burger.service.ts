@@ -19,4 +19,8 @@ export class BurgerService {
   findAll(): Promise<Burger[]> {
     return this.burgerRepo.find();
   }
+
+  async findOne(id: number): Promise<Burger> {
+    return this.burgerRepo.findOne({ where: { id } });
+  }
 }

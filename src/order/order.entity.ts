@@ -17,6 +17,9 @@ export class Order {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
+  @Column('int')
+  user_id: number;
+
   @Column('json')
   items: any;
 

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { BurgerService } from './burger.service';
 import { Burger } from './burger.entity';
 import { CreateBurgerDto } from './dto/create-burger.dto';
@@ -16,5 +24,15 @@ export class BurgerController {
   @Post()
   create(@Body() body: CreateBurgerDto): Promise<Burger> {
     return this.burgerService.create(body);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async getOne(@Param('id') id: string) {
+    const burger = await this.burgerService.findOne(Number(id));
+    if (!burger) {
+      throw new NotFoundException(`Burger con ID ${id} no encontrada`);
+    }
+    return burger;
   }
 }

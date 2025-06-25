@@ -29,4 +29,7 @@ export class CreateOrderDto {
 
   @IsNumber()
   total: number;
+
+  @IsNumber()
+  user_id: number;
 }

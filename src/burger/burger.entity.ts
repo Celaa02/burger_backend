@@ -15,5 +15,5 @@ export class Burger {
   price: number;
 
   @Column()
-  imageUrl: string; // Puedes usar esto si planeas mostrar imágenes
+  imageUrl: string;
 }

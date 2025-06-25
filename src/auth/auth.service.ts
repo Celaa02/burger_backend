@@ -19,27 +19,28 @@ export class AuthService {
       where: { email: data.email },
     });
     if (existing)
-      throw new UnauthorizedException('El email ya está registrado');
+      throw new UnauthorizedException('The email is already registered');
 
     const hashed = await bcrypt.hash(data.password, 10);
     const user = this.userRepo.create({ ...data, password: hashed });
     await this.userRepo.save(user);
-    return { message: 'Usuario registrado con éxito' };
+    return { message: 'User successfully registered' };
   }
 
   async login(data: LoginDto) {
     const user = await this.userRepo.findOne({ where: { email: data.email } });
     if (!user || !(await bcrypt.compare(data.password, user.password))) {
-      throw new UnauthorizedException('Credenciales inválidas');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
     const token = await this.jwtService.signAsync({ sub: user.id });
     return {
-      access_token: token,
+      success: true,
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
+        access_token: token,
       },
     };
   }

@@ -16,8 +16,7 @@ export class OrderService {
     const order = this.orderRepo.create(data);
     const savedOrder = await this.orderRepo.save(order);
 
-    // Enviar correo de confirmación
-    const email = data.email; // asegúrate de que esté incluido en el DTO
+    const email = data.email;
     if (email) {
       await sendOrderConfirmationEmail(email, savedOrder.id, savedOrder.total);
     }
@@ -25,7 +24,10 @@ export class OrderService {
     return savedOrder;
   }
 
-  findAll(): Promise<Order[]> {
-    return this.orderRepo.find({ order: { createdAt: 'DESC' } });
+  findAll(userId: number): Promise<Order[]> {
+    return this.orderRepo.find({
+      where: { user_id: userId },
+      order: { createdAt: 'DESC' },
+    });
   }
 }
